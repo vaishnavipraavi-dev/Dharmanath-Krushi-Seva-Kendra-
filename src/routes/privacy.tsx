@@ -1,20 +1,7 @@
-﻿import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site";
 import { useLang } from "@/lib/i18n";
 import img from "@/assets/aerial.jpg";
-export const Route = createFileRoute("/privacy")({
-  head: () => ({
-    meta: [
-      { title: "Privacy — Dharmanath Krushi Seva Kendra" },
-      {
-        name: "description",
-        content: "How this website handles language preferences and product enquiries.",
-      },
-    ],
-  }),
-  component: Privacy,
-});
-function Privacy() {
+export default function Privacy() {
   const { t } = useLang();
   return (
     <>

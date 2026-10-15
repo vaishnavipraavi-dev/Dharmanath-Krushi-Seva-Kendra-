@@ -1,4 +1,5 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useLocation } from "react-router-dom";
+import { routeHref } from "@/lib/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
@@ -173,14 +174,15 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [acc, setAcc] = useState(false);
   const drawer = useRef<HTMLElement>(null);
-  const path = useRouterState({ select: (s) => s.location.pathname });
+  const location = useLocation();
+  const path = location.pathname;
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 40);
     on();
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
   }, []);
-  const locationKey = useRouterState({ select: (s) => s.location.href });
+  const locationKey = location.pathname + location.search;
   useEffect(() => {
     setOpen(false);
     setAcc(false);
@@ -283,8 +285,7 @@ export function Header() {
                       {categories.map((c) => (
                         <Link
                           key={c.id}
-                          to="/products"
-                          search={{ cat: c.id }}
+                          to={routeHref("/products", { cat: c.id })}
                           className="flex items-center gap-3 rounded-xl p-2 transition-colors hover:bg-secondary"
                         >
                           <img
@@ -402,8 +403,7 @@ export function Header() {
                         {categories.map((c) => (
                           <Link
                             key={c.id}
-                            to="/products"
-                            search={{ cat: c.id }}
+                            to={routeHref("/products", { cat: c.id })}
                             className="block py-2 text-sm text-muted-foreground"
                           >
                             {t(c.name)}
@@ -493,8 +493,7 @@ export function Footer() {
               {categories.map((c) => (
                 <li key={c.id}>
                   <Link
-                    to="/products"
-                    search={{ cat: c.id }}
+                    to={routeHref("/products", { cat: c.id })}
                     className="text-forest-foreground/75 transition-colors hover:text-gold"
                   >
                     {t(c.name)}
@@ -643,11 +642,7 @@ export function ProductCard({ p }: { p: Product }) {
   const wa = waLink(t(`Enquiry: ${p.name.en}`, `चौकशी: ${p.name.mr}`));
   return (
     <article className="group flex flex-col overflow-hidden rounded-3xl border bg-card transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift">
-      <Link
-        to="/products/$slug"
-        params={{ slug: p.slug }}
-        className="relative block aspect-[4/3] overflow-hidden"
-      >
+      <Link to={`/products/${p.slug}`} className="relative block aspect-[4/3] overflow-hidden">
         <img
           src={p.image}
           alt={t(p.name)}
@@ -666,8 +661,7 @@ export function ProductCard({ p }: { p: Product }) {
         <p className="mt-2 flex-1 text-sm text-muted-foreground">{t(p.desc)}</p>
         <div className="mt-5 flex flex-wrap gap-2">
           <Link
-            to="/products/$slug"
-            params={{ slug: p.slug }}
+            to={`/products/${p.slug}`}
             className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-4 py-2 text-xs font-semibold text-forest transition-colors hover:bg-forest hover:text-forest-foreground"
           >
             {t(dict.viewDetails)}
@@ -683,8 +677,7 @@ export function ProductCard({ p }: { p: Product }) {
             </a>
           ) : (
             <Link
-              to="/contact"
-              search={{ product: p.slug }}
+              to={routeHref("/contact", { product: p.slug })}
               className="inline-flex items-center gap-1.5 rounded-full bg-fresh px-4 py-2 text-xs font-semibold text-primary-foreground"
             >
               {t(dict.enquire)}

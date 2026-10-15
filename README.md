@@ -1,6 +1,6 @@
 ﻿# Dharmanath Krushi Seva Kendra
 
-A responsive, bilingual agricultural business website built with React, TanStack Start, Tailwind CSS, Framer Motion and Lucide icons. This project remains compatible with its existing Lovable setup.
+A responsive, bilingual agricultural business website built with React, Vite, React Router, Tailwind CSS, Framer Motion and Lucide icons.
 
 ## Develop and check
 
@@ -13,6 +13,12 @@ npx tsc --noEmit
 ```
 
 Pages: Home, About, Products, Product Details, Crop Solutions, Gallery, Contact, Privacy and Terms. Product filters and crop selections use URL search parameters. The gallery supports category filters and an accessible lightbox with keyboard navigation. The selected language is retained in browser storage.
+
+## Build and hosting
+
+`npm run build` produces a static website in `dist/`. Use `npm run preview` to check that build locally. Deploy `dist/` to a static host and configure frontend routes such as `/products/vegetable-seeds` to fall back to `index.html`. The included `public/_redirects` supplies this rewrite for Netlify and Cloudflare Pages. For Nginx use `try_files $uri $uri/ /index.html;` in the site location block. No server runtime, SSR or query provider is required.
+
+The application starts at `src/main.tsx`. Routes, shared layout, page metadata and the error boundary are defined in `src/App.tsx`.
 
 ## Business configuration
 

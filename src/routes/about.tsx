@@ -1,23 +1,11 @@
-﻿import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { Leaf, MapPin, Sprout, Wheat } from "lucide-react";
 import { PageHero, CTASection, Reveal, SectionHeading, btn, Arrow } from "@/components/site";
 import { useLang } from "@/lib/i18n";
 import aerial from "@/assets/aerial.jpg";
 import farmer from "@/assets/farmer.jpg";
 
-export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About Us — Dharmanath Krushi Seva Kendra" },
-      {
-        name: "description",
-        content: "Meet your local agricultural supply centre in Karjat, Ahilyanagar.",
-      },
-    ],
-  }),
-  component: About,
-});
-function About() {
+export default function About() {
   const { t } = useLang();
   return (
     <>

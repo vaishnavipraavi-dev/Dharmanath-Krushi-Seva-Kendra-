@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { routeHref } from "@/lib/navigation";
+import { Link, useSearchParams } from "react-router-dom";
 import { Search, SlidersHorizontal, X } from "lucide-react";
 import { useState } from "react";
 import { PageHero, ProductCard, btn } from "@/components/site";
@@ -6,23 +7,10 @@ import { products, categories } from "@/lib/catalog";
 import { dict, useLang } from "@/lib/i18n";
 import hero from "@/assets/seeds.jpg";
 
-export const Route = createFileRoute("/products/")({
-  validateSearch: (s: Record<string, unknown>): { cat?: string | undefined } => ({
-    cat: categories.some((c) => c.id === s["cat"]) ? String(s["cat"]) : undefined,
-  }),
-  head: () => ({
-    meta: [
-      { title: "Products — Dharmanath Krushi Seva Kendra" },
-      {
-        name: "description",
-        content: "Explore seeds, fertilizers, crop protection and agricultural inputs by category.",
-      },
-    ],
-  }),
-  component: Products,
-});
-function Products() {
-  const { cat } = Route.useSearch();
+export default function Products() {
+  const [searchParams] = useSearchParams();
+  const requestedCategory = searchParams.get("cat");
+  const cat = categories.some((c) => c.id === requestedCategory) ? requestedCategory : null;
   const { t } = useLang();
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("default");
@@ -87,8 +75,7 @@ function Products() {
           className="mb-8 flex flex-wrap gap-2"
         >
           <Link
-            to="/products"
-            search={{ cat: undefined }}
+            to={routeHref("/products", { cat: undefined })}
             className={cat ? btn.outline : btn.primary}
           >
             {t("All Products", "सर्व उत्पादने")}
@@ -96,8 +83,7 @@ function Products() {
           {categories.map((c) => (
             <Link
               key={c.id}
-              to="/products"
-              search={{ cat: c.id }}
+              to={routeHref("/products", { cat: c.id })}
               aria-current={cat === c.id ? "page" : undefined}
               className={cat === c.id ? btn.primary : btn.outline}
             >
@@ -135,8 +121,7 @@ function Products() {
               )}
             </p>
             <Link
-              to="/products"
-              search={{ cat: undefined }}
+              to={routeHref("/products", { cat: undefined })}
               onClick={() => setQuery("")}
               className={btn.outline}
             >

@@ -1,29 +1,15 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { routeHref } from "@/lib/navigation";
+import { Link, useSearchParams } from "react-router-dom";
 import { Leaf, ArrowUpRight } from "lucide-react";
 import { PageHero, CTASection, btn, Arrow } from "@/components/site";
 import { crops, categories } from "@/lib/catalog";
 import { useLang, dict } from "@/lib/i18n";
 import img from "@/assets/aerial.jpg";
 
-export const Route = createFileRoute("/crop-solutions")({
-  validateSearch: (s: Record<string, unknown>): { crop?: string | undefined } => ({
-    crop: crops.some((c) => c.id === s["crop"]) ? String(s["crop"]) : undefined,
-  }),
-  head: () => ({
-    meta: [
-      { title: "Crop Solutions — Dharmanath Krushi Seva Kendra" },
-      {
-        name: "description",
-        content:
-          "Explore agricultural input categories by vegetables, fruits, cereals, pulses and other crops.",
-      },
-    ],
-  }),
-  component: CropSolutions,
-});
-function CropSolutions() {
+export default function CropSolutions() {
   const { t } = useLang();
-  const { crop } = Route.useSearch();
+  const [searchParams] = useSearchParams();
+  const crop = searchParams.get("crop");
   const selected = crops.find((c) => c.id === crop) || crops[0]!;
   return (
     <>
@@ -48,8 +34,7 @@ function CropSolutions() {
           {crops.map((c) => (
             <Link
               key={c.id}
-              to="/crop-solutions"
-              search={{ crop: c.id }}
+              to={routeHref("/crop-solutions", { crop: c.id })}
               aria-current={selected.id === c.id ? "page" : undefined}
               className={`group relative overflow-hidden rounded-2xl border-2 ${selected.id === c.id ? "border-fresh ring-4 ring-mint" : "border-transparent"}`}
             >
@@ -83,8 +68,7 @@ function CropSolutions() {
                 return (
                   <Link
                     key={id}
-                    to="/products"
-                    search={{ cat: id }}
+                    to={routeHref("/products", { cat: id })}
                     className="flex items-center justify-between gap-3 rounded-xl bg-secondary/60 px-4 py-3 text-sm font-medium text-forest transition-colors hover:bg-mint"
                   >
                     <span>{t(c.name)}</span>

@@ -1,27 +1,17 @@
-﻿import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { routeHref } from "@/lib/navigation";
+import { Link, useParams } from "react-router-dom";
+import { NotFound } from "@/components/not-found";
 import { Check, MessageCircle, Package, Sprout } from "lucide-react";
 import { PageHero, ProductCard, btn, Arrow } from "@/components/site";
 import { products, catName } from "@/lib/catalog";
 import { dict, useLang } from "@/lib/i18n";
 import { waLink } from "@/lib/site";
 
-export const Route = createFileRoute("/products/$slug")({
-  loader: ({ params }) => {
-    const p = products.find((x) => x.slug === params.slug);
-    if (!p) throw notFound();
-    return p;
-  },
-  head: ({ loaderData }) => ({
-    meta: [
-      { title: `${loaderData?.name.en ?? "Product"} — Dharmanath Krushi Seva Kendra` },
-      { name: "description", content: loaderData?.desc.en ?? "Product details" },
-    ],
-  }),
-  component: Detail,
-});
-function Detail() {
-  const p = Route.useLoaderData();
+export default function Detail() {
+  const { slug } = useParams();
+  const p = products.find((item) => item.slug === slug);
   const { t } = useLang();
+  if (!p) return <NotFound />;
   const wa = waLink(
     t(
       `Hello, I would like to enquire about ${p.name.en}.`,
@@ -73,7 +63,7 @@ function Detail() {
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link to="/contact" search={{ product: p.slug }} className={btn.primary}>
+            <Link to={routeHref("/contact", { product: p.slug })} className={btn.primary}>
               {t(dict.enquire)} <Arrow />
             </Link>
             {wa && (
@@ -91,8 +81,7 @@ function Detail() {
             )}
           </p>
           <Link
-            to="/products"
-            search={{ cat: p.category }}
+            to={routeHref("/products", { cat: p.category })}
             className="mt-6 inline-flex text-sm font-semibold text-fresh"
           >
             {t("Browse this category →", "या श्रेणीतील उत्पादने पहा →")}

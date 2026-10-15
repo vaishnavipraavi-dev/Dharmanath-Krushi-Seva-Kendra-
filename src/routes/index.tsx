@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { routeHref } from "@/lib/navigation";
+import { Link } from "react-router-dom";
 import {
   ArrowDown,
   ArrowUpRight,
@@ -18,9 +19,7 @@ import hero from "@/assets/hero.jpg";
 import farmer from "@/assets/farmer.jpg";
 import aerial from "@/assets/aerial.jpg";
 
-export const Route = createFileRoute("/")({ component: Home });
-
-function Home() {
+export default function Home() {
   const { t } = useLang();
   const strengths = [
     {
@@ -248,8 +247,7 @@ function Home() {
             {categories.map((c, i) => (
               <Link
                 key={c.id}
-                to="/products"
-                search={{ cat: c.id }}
+                to={routeHref("/products", { cat: c.id })}
                 className={`group relative isolate overflow-hidden rounded-3xl bg-forest ${i === 0 ? "category-feature" : ""}`}
               >
                 <img
@@ -337,8 +335,7 @@ function Home() {
           {crops.map((c) => (
             <Link
               key={c.id}
-              to="/crop-solutions"
-              search={{ crop: c.id }}
+              to={routeHref("/crop-solutions", { crop: c.id })}
               className="group relative overflow-hidden rounded-2xl"
             >
               <img

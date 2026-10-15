@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { useSearchParams } from "react-router-dom";
 import { useEffect, useState, type FormEvent } from "react";
 import {
   ArrowUpRight,
@@ -17,26 +17,11 @@ import { useLang, dict } from "@/lib/i18n";
 import { site, waLink } from "@/lib/site";
 import img from "@/assets/farmer.jpg";
 
-export const Route = createFileRoute("/contact")({
-  validateSearch: (s: Record<string, unknown>): { product?: string | undefined } => ({
-    product: typeof s["product"] === "string" ? s["product"] : undefined,
-  }),
-  head: () => ({
-    meta: [
-      { title: "Contact — Dharmanath Krushi Seva Kendra" },
-      {
-        name: "description",
-        content:
-          "Share your agricultural product requirements with Dharmanath Krushi Seva Kendra, Karjat.",
-      },
-    ],
-  }),
-  component: Contact,
-});
 const empty = { name: "", mobile: "", village: "", category: "", requirement: "", message: "" };
-function Contact() {
+export default function Contact() {
   const { t, lang } = useLang();
-  const { product } = Route.useSearch();
+  const [searchParams] = useSearchParams();
+  const product = searchParams.get("product");
   const [form, setForm] = useState(empty);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"" | "pending" | "opened" | "downloaded">("");

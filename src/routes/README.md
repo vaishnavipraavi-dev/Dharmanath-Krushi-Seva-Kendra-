@@ -1,21 +1,7 @@
-# Routes
+# Pages and routing
 
-TanStack Start uses **file-based routing**. Every `.tsx` file in this directory
-defines a route. Do **not** create `src/pages/`, `src/routes/_app/index.tsx`, or
-`app/layout.tsx` — those are Next.js / Remix conventions. The only root layout
-is `src/routes/__root.tsx`.
+These files export React page components. Routes are declared explicitly in `src/App.tsx` using React Router, with lazy loading for each page.
 
-## Conventions
+`products.$slug.tsx` renders `/products/:slug` and reads the slug with `useParams`. Product filters, crop selections and enquiry prefills use `useSearchParams`. Navigation links use the `routeHref` helper to encode query parameters. Unknown routes and product slugs render the shared `NotFound` component.
 
-| File | URL |
-| --- | --- |
-| `index.tsx` | `/` |
-| `about.tsx` | `/about` |
-| `users/index.tsx` | `/users` |
-| `users/$id.tsx` | `/users/:id` (dynamic — bare `$`, no curly braces) |
-| `posts/{-$category}.tsx` | `/posts/:category?` (optional segment) |
-| `files/$.tsx` | `/files/*` (splat — read via `_splat` param, never `*`) |
-| `_layout.tsx` | layout route (renders children via `<Outlet />`) |
-| `__root.tsx` | app shell — wraps every page; preserve `<Outlet />` |
-
-`routeTree.gen.ts` is auto-generated. Don't edit it by hand.
+Register new pages and their metadata in `src/App.tsx`. Static hosting must serve `index.html` for frontend routes; see the project README.

@@ -1,4 +1,3 @@
-﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Expand } from "lucide-react";
 import { PageHero, CTASection, btn } from "@/components/site";
@@ -7,19 +6,6 @@ import { gallery, galleryCats, type GalleryCat } from "@/lib/catalog";
 import { dict, useLang } from "@/lib/i18n";
 import img from "@/assets/aerial.jpg";
 
-export const Route = createFileRoute("/gallery")({
-  head: () => ({
-    meta: [
-      { title: "Gallery — Dharmanath Krushi Seva Kendra" },
-      {
-        name: "description",
-        content:
-          "Explore a visual story of agriculture, farming and essential agricultural inputs.",
-      },
-    ],
-  }),
-  component: Gallery,
-});
 const captionsMr = [
   "सूर्योदयाच्या वेळी हिरवीगार शेती",
   "पिकांच्या पानांची पाहणी करणारे शेतकरी",
@@ -34,7 +20,7 @@ const captionsMr = [
   "गहू व ज्वारीचे शेत",
   "उसाच्या रांगा",
 ];
-function Gallery() {
+export default function Gallery() {
   const { t, lang } = useLang();
   const [filter, setFilter] = useState<GalleryCat | "all">("all");
   const [index, setIndex] = useState<number | null>(null);

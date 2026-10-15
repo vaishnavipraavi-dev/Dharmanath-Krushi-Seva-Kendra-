@@ -1,20 +1,7 @@
-﻿import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site";
 import { useLang } from "@/lib/i18n";
 import img from "@/assets/aerial.jpg";
-export const Route = createFileRoute("/terms")({
-  head: () => ({
-    meta: [
-      { title: "Terms — Dharmanath Krushi Seva Kendra" },
-      {
-        name: "description",
-        content: "Information about sample products, enquiries and website use.",
-      },
-    ],
-  }),
-  component: Terms,
-});
-function Terms() {
+export default function Terms() {
   const { t } = useLang();
   return (
     <>
